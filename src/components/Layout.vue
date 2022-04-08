@@ -1,8 +1,9 @@
 <template>
-  <div>
-      <Layout>
-         Money
-      </Layout>
+   <div class="nav-wrapper">
+      <div class="content">
+         <slot/>
+        </div>
+      <Nav/>
   </div>
   
 </template>
@@ -10,14 +11,12 @@
 <script lang='ts'>
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
-@Component({
-    
-})
-export default class Money extends Vue {
+@Component({})
+export default class Layout extends Vue {
 }
 </script>
 <style lang='scss' scoped>
- .nav-wrapper{
+.nav-wrapper{
      border: 1px solid red;
      display:flex;
      flex-direction:column;
