@@ -1,0 +1,28 @@
+<template>
+    <svg class="icon">
+        <use :xlink:href="'#'+name" />
+      </svg>
+</template>
+
+<script lang='ts'>
+ // eslint-disable-next-line no-undef
+ let importAll = (requireContext:__WebpackModuleApi.RequireContext)=>requireContext.keys().forEach(requireContext);
+  try{importAll(require.context("../assets/icons",true,/\.svg$/));
+  }catch(err){
+    console.log(err);
+  }
+import Vue from 'vue'
+import {Component, Prop} from 'vue-property-decorator'
+@Component({})
+export default class  extends Vue {
+    @Prop(String) name?:string|undefined;
+}</script>
+<style lang='scss' scoped>
+.icon{
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill:currentColor;
+  overflow: hidden;
+}
+</style>
