@@ -1,51 +1,10 @@
 <template>
   <div>
-    <Layout>
-      <div class="tags">
-        <ul class="current">
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-        </ul>
-        <div class="new">
-          <button>新增标签</button>
-        </div>
-      </div>
-
-      <div>
-        <label class="notes">
-          <span class="name">备注 </span>
-          <input type="text" placeholder="在这里输入备注" />
-        </label>
-      </div>
-
-      <div>
-        <ul class="types">
-          <li class="selected">支出</li>
-          <li>收入</li>
-        </ul>
-      </div>
-
-      <div class="numberPad">
-        <div class="output">100</div>
-        <div class="buttons">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>删除</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>清空</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button class="ok">ok</button>
-          <button class="zero">0</button>
-          <button>.</button>
-        </div>
-      </div>
+    <Layout class-prefix="layout">
+      <NumberPad />
+      <Types />
+      <Notes />
+      <Tags />
     </Layout>
   </div>
 </template>
@@ -53,23 +12,43 @@
 <script lang='ts'>
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-@Component({})
+import Tags from "@/components/Money/Tags.vue";
+import Types from "@/components/Money/Types.vue";
+import Notes from "@/components/Money/Notes.vue";
+import NumberPad from "@/components/Money/NumberPad.vue";
+@Component({
+  components: { Tags, Types, Notes, NumberPad },
+})
 export default class Money extends Vue {}
 </script>
+
+<style lang="scss">
+.layout-content {
+  border: 1px solid rgb(0, 255, 76);
+  display: flex;
+  flex-direction: column-reverse;
+}
+</style>
+
 <style lang='scss' scoped>
 @import "~@/assets/styles/helper.scss";
 .tags {
-  border: 1px solid red;
+  flex-grow: 1;
+  font-size: 14px;
   padding: 16px;
+  display: flex;
+  flex-direction: column-reverse;
   > .current {
     display: flex;
+    border: 1px solid red;
+    flex-wrap: wrap;
     > li {
-      border: 1px solid black;
       background-color: #d9d9d9;
       height: 24px;
       border-radius: 12px;
       padding: 0px 15px;
       margin-right: 12px;
+      margin-top: 4px;
     }
   }
   > .new {
@@ -133,8 +112,8 @@ export default class Money extends Vue {}
     padding: 8px 16px;
     text-align: right;
     box-shadow: inset 0 -5px 5px -5px fade-out($color: #000000, $amount: 0.5),
-                inset 0  5px 5px -5px fade-out($color: #000000, $amount: 0.5)
-  } 
+      inset 0 5px 5px -5px fade-out($color: #000000, $amount: 0.5);
+  }
   > .buttons {
     @extend %clearfix;
     > button {
