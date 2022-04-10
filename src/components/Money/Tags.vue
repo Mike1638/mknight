@@ -8,41 +8,6 @@
           <li>衣</li>
           <li>衣</li>
           <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
-          <li>衣</li>
         </ul>
       </div>
 </template>
@@ -63,7 +28,6 @@ export default class Tags extends Vue {
   flex-direction: column-reverse;
   > .current {
     display: flex;
-    border: 1px solid red;
      flex-wrap: wrap;
     > li {
       background-color: #d9d9d9;
