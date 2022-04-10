@@ -2,7 +2,7 @@
   <div>
     <Layout class-prefix="layout">
       <NumberPad />
-      <Types />
+      <Types :type.sync=type />
       <Notes />
       <Tags />
     </Layout>
@@ -19,7 +19,9 @@ import NumberPad from "@/components/Money/NumberPad.vue";
 @Component({
   components: { Tags, Types, Notes, NumberPad },
 })
-export default class Money extends Vue {}
+export default class Money extends Vue {
+  type = '-'
+}
 </script>
 
 <style lang="scss">

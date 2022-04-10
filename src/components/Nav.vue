@@ -9,8 +9,6 @@
 <script lang='ts'>
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import x from "@/assets/icons/money.svg";
-console.log(x);
 
 @Component({})
 export default class Nav extends Vue {}
