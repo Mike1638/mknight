@@ -14,8 +14,8 @@ import { Component,Prop} from "vue-property-decorator";
 export default class Types extends Vue {
   @Prop() type!: '-';
 
-  selectType(types:string){
-      this.$emit('update:type',types)
+  selectType(type:string){
+      this.$emit('update:type',type)
   }
  
   

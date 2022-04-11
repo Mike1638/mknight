@@ -1,26 +1,60 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <NumberPad />
-      <Types :type.sync=type />
-      <Notes />
-      <Tags />
+      {{ record }}
+      <NumberPad :value.sync="record.amount" @saveRecord="saveRecord" />
+      <Types :type.sync="record.type" />
+      <Notes @update:value="onUpdateNotes" />
+      <Tags
+        :datasourse="tag"
+        @update:datasourse="tag = $event"
+        @update:selected="onUpdateTags"
+      />
     </Layout>
   </div>
 </template>
 
 <script lang='ts'>
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component,Watch } from "vue-property-decorator";
 import Tags from "@/components/Money/Tags.vue";
 import Types from "@/components/Money/Types.vue";
 import Notes from "@/components/Money/Notes.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
+import recordListModel from "@/models/model"
+import tagListModel from "@/models/tagListModel"
+
+type RecordItem = {
+  tags: string[];
+  notes: string;
+  type: string;
+  amount: number;
+  createAt?:Date | undefined;
+};
+type RecordList = RecordItem[];
 @Component({
   components: { Tags, Types, Notes, NumberPad },
 })
 export default class Money extends Vue {
-  type = '-'
+  recordList: RecordList = recordListModel.fetch();
+  record: RecordItem = { tags: [], type: "-", amount: 0, notes: "" ,createAt:undefined};
+  tag = tagListModel.fetch();
+  onUpdateTags(value: string[]) {
+    this.record.tags = value;
+  }
+  onUpdateNotes(value: string) {
+    this.record.notes = value;
+  }
+  saveRecord() {
+    const  record2 :RecordItem = recordListModel.clone(this.recordList)
+    record2.createAt = new Date();
+    this.recordList.push(record2);
+    console.log(JSON.stringify(this.recordList));
+  }
+  @Watch('recordList')
+    onRecordListChange(){
+     recordListModel.save(this.recordList)
+    }
 }
 </script>
 
