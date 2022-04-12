@@ -1,19 +1,20 @@
 <template>
       <div>
-        <label class="notes">
-          <span class="name">备注{{value}} </span>
-          <input type="text" placeholder="在这里输入备注"  :value="value" @input="onChange"/>
+        <label class="formitem">
+          <span class="name">{{filedName}}</span>
+          <input type="text" :placeholder="placeholderName"  :value="value" @input="onChange"/>
         </label>
       </div>
 </template>
 
 <script lang='ts'>
 import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
+import {Component, Prop} from 'vue-property-decorator'
 @Component({})
 export default class Notes extends Vue {
   value = ''
-
+  @Prop(String) filedName?:string
+  @Prop(String) placeholderName ?: string
   onChange(event:KeyboardEvent){
     this.value = (event.target as HTMLInputElement).value;
     this.$emit('update:value',this.value)
@@ -21,8 +22,7 @@ export default class Notes extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.notes {
-  background: #f5f5f5;
+.formitem {
   font-size: 14px;
   display: block;
   padding-left: 16px;
@@ -34,10 +34,10 @@ export default class Notes extends Vue {
   }
   input {
     flex-grow: 1;
-    height: 64px;
     border: none;
     background: transparent;
     padding-right: 16px;
+    padding: 12px 0;
   }
 }
 </style>
