@@ -12,12 +12,11 @@ import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 @Component({})
 export default class Notes extends Vue {
-  value = ''
+  @Prop({default:''})  value! :string
   @Prop(String) filedName?:string
   @Prop(String) placeholderName ?: string
   onChange(event:KeyboardEvent){
-    this.value = (event.target as HTMLInputElement).value;
-    this.$emit('update:value',this.value)
+    this.$emit('update:value', (event.target as HTMLInputElement).value)
   }
 }
 </script>

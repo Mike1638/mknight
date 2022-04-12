@@ -2,7 +2,12 @@
   <div>
     <Layout>
       <ul class="tags">
-        <router-link v-for="tag in tags" :key="tag.id" :to="`/labels/editlabel/${tag.id}`" class="link">
+        <router-link
+          v-for="tag in tags"
+          :key="tag.id"
+          :to="`/labels/editlabel/${tag.id}`"
+          class="link"
+        >
           <span>{{ tag.name }}</span>
           <Icon name="right" class="icon" />
         </router-link>
@@ -18,24 +23,17 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import tagListModel from "@/models/tagListModel";
-import Button from "@/components/Button.vue"
-
+import Button from "@/components/Button.vue";
 
 @Component({
-  components:{Button}
+  components: { Button },
 })
 export default class Labels extends Vue {
-  tags = tagListModel.data;
+  tags = window.tagList;
   createTag() {
     const name = window.prompt("请输入标签名");
     if (name) {
-      const message = tagListModel.create(name);
-      if (message === "success") {
-        window.alert("新增成功");
-      }
-      if (message === "duplicated") {
-        window.alert("标签输入重复");
-      }
+      window.createTag(name);
     }
   }
   beforeCreate() {

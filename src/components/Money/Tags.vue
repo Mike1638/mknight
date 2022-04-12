@@ -4,7 +4,7 @@
       <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="(item, index) in datasourse" :key="index" @click="toggle(item)"  :class=" selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item }}</li>
+      <li v-for="(item, index) in datasourse" :key="index" @click="toggle(item)"  :class=" selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
     </ul>
   </div>
 </template>
@@ -18,9 +18,6 @@ export default class Tags extends Vue {
   selectedTags ?:string[]=[];
   createTag() {
     const tag =  window.prompt('请输入标签名')
-    console.log(tag);
-    console.log(this.datasourse);
-    
     if(tag === null || tag.trim() === ''){
       window.alert('输入为空，请输入标签')
     }else{

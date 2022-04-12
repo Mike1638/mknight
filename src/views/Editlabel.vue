@@ -1,14 +1,14 @@
 <template>
   <Layout>
      <div class="navBar">
-         <Icon name = 'left' class="left" />
+         <Icon name = 'left' class="left" @click="goback" />
          <span class="title">编辑标签</span>
          <div class="right"></div>
      </div>
      <div class="formitem">
-    <FormItem filedName='标签名' placeholderName="请修改"  />
+    <FormItem filedName='标签名' placeholderName="请修改" :value="tag.name" @update:value="updateTag" />
      </div>
-    <Button>删除标签</Button>
+    <Button @click.native="remove">删除标签</Button>
   </Layout>
 </template>
 
@@ -18,21 +18,42 @@ import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
 import FormItem from "@/components/Money/FormItem.vue";
 import Button from "@/components/Button.vue"
+
+type Tag = {id:string,name:string}
 @Component({
     components:{FormItem,Button}
 })
+
 export default class  extends Vue {
-    
-created(){
- const id = this.$route.params.id;
- tagListModel.fetch()
- const tags = tagListModel.data
- const tag = tags.filter(tag=>tag.id === id)[0]
- if(tag){
-   console.log(tag);
- }else{
-     this.$router.replace('/404')
+tag?:Tag = undefined
+remove(){
+  if(this.tag){
+     window.removeTag(this.tag)
+  }else{
+    window.alert('删除失败')
+  }
+  this.$router.replace('/labels')
+}
+
+
+updateTag(value:string){
+ if(this.tag){
+ window.updateTag(this.tag.id,value)
  }
+}
+
+
+
+created(){
+   this.tag = window.findTag(this.$route.params.id)
+  if(!this.tag){
+    this.$router.replace('/404')
+  }
+ 
+}
+goback(){
+  console.log('1');
+  this.$router.replace('/labels')
 }
 }
 </script>
