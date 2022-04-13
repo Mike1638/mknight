@@ -11,21 +11,18 @@
 
 <script lang='ts'>
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component} from "vue-property-decorator";
 @Component({})
 export default class Tags extends Vue {
-  @Prop(Array) datasourse?: string[];
+  datasourse=this.$store.state.tagList;
   selectedTags ?:string[]=[];
   createTag() {
     const tag =  window.prompt('请输入标签名')
-    if(tag === null || tag.trim() === ''){
-      window.alert('输入为空，请输入标签')
-    }else{
-     if(this.datasourse){
-       if(this.datasourse.indexOf(tag)>=0){window.alert('输入标签重复'); return}
-        this.$emit('update:datasourse',[...this.datasourse,tag])
-     }
-    }
+   if(tag === null || tag.trim() === ''){
+     window.alert('输入为空')
+   }else{
+     this.$store.commit('createTag',tag)
+   }
   }
   toggle(item:string){
     const index = this.selectedTags?.indexOf(item)

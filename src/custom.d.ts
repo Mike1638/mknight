@@ -20,13 +20,3 @@ type Tag = {
   name: string;
 };
 
-interface Window{
-   tagList:Tag[],
-   createTag:(name:string)=>void,
-   removeTag:(tag:Tag)=>boolean,
-   updateTag:(id:string,name:string)=> "Not Found"|"success"|"duplicated";
-   findTag:(id:string)=>Tag |undefined
-
-   recordList:RecordItem[]
-   createRecord:(record:RecordItem)=>void
-}

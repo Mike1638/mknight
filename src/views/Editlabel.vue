@@ -13,7 +13,6 @@
 </template>
 
 <script lang='ts'>
-import tagListModel from '@/models/tagListModel';
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
 import FormItem from "@/components/Money/FormItem.vue";
@@ -28,7 +27,7 @@ export default class  extends Vue {
 tag?:Tag = undefined
 remove(){
   if(this.tag){
-     window.removeTag(this.tag)
+  this.$store.commit('removeTag',this.tag); 
   }else{
     window.alert('删除失败')
   }
@@ -38,21 +37,24 @@ remove(){
 
 updateTag(value:string){
  if(this.tag){
- window.updateTag(this.tag.id,value)
+  let  payload = {id:this.tag.id,name:value}
+ this.$store.commit('updateTag',payload)
  }
 }
 
 
 
 created(){
-   this.tag = window.findTag(this.$route.params.id)
+this.$store.commit('findTag',this.$route.params.id)
+   
+   this.tag = this.$store.state.currentTag
+   
   if(!this.tag){
     this.$router.replace('/404')
   }
  
 }
 goback(){
-  console.log('1');
   this.$router.replace('/labels')
 }
 }
