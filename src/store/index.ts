@@ -14,7 +14,7 @@ const store = new Vuex.Store({
   mutations:{
     createRecord (state,record: RecordItem){
       const record2: RecordItem = clone(record);
-      record2.createAt = new Date();
+      record2.createAt = new Date().toISOString();
       state.recordList && state.recordList.push(record2);
       store.commit('saveRecords');
     },
@@ -72,12 +72,16 @@ const store = new Vuex.Store({
       const nameList = state.tagList.map((t) => t.name);
       if (idList.indexOf(payload.id) >=0) {
         if (nameList.indexOf(payload.name) >= 0) {
+          store.commit('saveTags')
+          window.alert("duplicated"); 
          window.alert("duplicated");
-        }
-       const tag= state.tagList.filter((t) => t.id === payload.id)[0];
-       tag.name = payload.name;
-        store.commit('saveTags');
+          window.alert("duplicated"); 
+        }else{
+          const tag= state.tagList.filter((t) => t.id === payload.id)[0];
+          tag.name = payload.name;
+           store.commit('saveTags');
         // window.alert("success") ;
+        }
       } else {
         window.alert("Not Found");
       }

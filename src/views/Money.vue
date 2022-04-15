@@ -26,7 +26,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createAt?:Date | undefined;
+  createAt?:string;
 };
 type RecordList = RecordItem[];
 @Component({

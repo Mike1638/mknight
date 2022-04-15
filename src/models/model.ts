@@ -2,23 +2,22 @@ import clone from "@/lib/clone";
 const listname = "recordList";
 
 const recordListModel = {
-  data:[] as RecordItem[],
-  create(record:RecordItem){
-    const  record2 :RecordItem = clone(record)
-    record2.createAt = new Date();
+  data: [] as RecordItem[],
+  create(record: RecordItem) {
+    const record2: RecordItem = clone(record);
+    record2.createAt = new Date().toString();
     this.data.push(record2);
-    this.save()
+    this.save();
   },
   fetch() {
-    this.data =  JSON.parse(
+    this.data = JSON.parse(
       window.localStorage.getItem(listname) || "[]"
     ) as RecordItem[];
-    return this.data
+    return this.data;
   },
   save() {
     localStorage.setItem(listname, JSON.stringify(this.data));
   },
-  
 };
 
 export default recordListModel;

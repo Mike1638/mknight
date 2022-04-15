@@ -36,6 +36,9 @@ remove(){
 
 
 updateTag(value:string){
+  if(value.trim() === ''){
+    return
+  }
  if(this.tag){
   let  payload = {id:this.tag.id,name:value}
  this.$store.commit('updateTag',payload)
