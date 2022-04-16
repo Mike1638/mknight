@@ -8,7 +8,8 @@
       <FormItem @update:value="onUpdateNotes" :value='record.notes' filedName="备注"  placeholderName="请输入备注"/>
        </div>
       <Tags
-           @update:selected="onUpdateTags"
+           @update:selectedTag="onUpdateTags"
+           :selectedTag='record.tags'
       />
     </Layout>
   </div>
@@ -36,8 +37,15 @@ export default class Money extends Vue {
   recordList: RecordList = this.$store.state.recordList;
   record: RecordItem = { tags: [], type: "-", amount: 0, notes: "" ,createAt:undefined};
   tag = this.$store.state.tagList;
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
+  onUpdateTags(value: string) {
+    console.log('111');
+    
+    //  const index = this.record.tags.indexOf(value);
+    // if (index >= 0) {
+    //   this.record.tags.splice(index, 1);
+    // } else {
+    //   this.record.tags.push(value);
+    // }
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
@@ -48,7 +56,7 @@ export default class Money extends Vue {
     }
     this.$store.commit('createRecord',this.record)
     this.onUpdateNotes('')
-    // this.record.tags=[]
+    this.record.tags= []
   }
 }
 </script>
