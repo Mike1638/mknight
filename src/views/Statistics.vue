@@ -4,9 +4,9 @@
       <Tabs :datasourse="datasourse" :type.sync="type" classPrefix="type" />
       <Tabs :datasourse="dayList" :type.sync="daytype" classPrefix="day" />
       <div>
-        <ol>
+        <ol v-if='result.length>0'>
           <li v-for="(group, index) in result" :key="index">
-            <h3 class="title">{{ group.title }}</h3>
+            <h3 class="title">{{ beautify(group.title) }} <span>￥{{group.total}}</span></h3>
             <ol>
               <li v-for="item in group.items" :key="item.id" class="record">
                 <span> {{ showtags(item.tags) }}</span>
@@ -16,6 +16,9 @@
             </ol>
           </li>
         </ol>
+        <div v-else>
+          暂无数据展示
+        </div>
       </div>
     </Layout>
   </div>
@@ -46,7 +49,9 @@
 import Vue from "vue";
 import Types from "@/components/Money/Types.vue";
 import Tabs from "@/components/Tabs.vue";
+import dayjs from 'dayjs'
 import { Component } from "vue-property-decorator";
+import clone from "@/lib/clone";
 type RecordItem = {
   tags: string[];
   notes: string;
@@ -54,37 +59,62 @@ type RecordItem = {
   amount: number;
   createAt: string;
 };
-type Items = RecordItem[];
-type HashTableValue = { title: string; items: Items };
 type Tag = { id: string; name: string };
 @Component({
   components: { Types, Tabs },
 })
 export default class Statistics extends Vue {
-  showtags(tag: Tag[]) {
-    if (tag.length) {
-      let put = [];
-      for (let i = 0; i < tag.length; i++) {
-        put.push(tag[i].name);
+   beautify(string:string){
+      const d= dayjs()
+
+      const day = dayjs(string)
+      if(day.isSame(d,'day')){
+         return '今天'      
+      }else
+      if(day.isSame(d.subtract(1,'day'),'day')){
+         return '昨天'
+      }else
+      if(day.isSame(d.subtract(2,'day'),'day')){
+        return '前天'
+      }else{
+         return day.format('YYYY年MM月D日')
       }
-      return put.toString();
-    } else {
-      return "无";
-    }
-    //   tags.length === 0? '无' : tags[0].name;
+
+ }
+  showtags(tag: Tag[]) {
+    return tag.length === 0?'无':  tag.map(item=>item.name).join(',');
   }
   get recordList() {
     return this.$store.state.recordList as RecordItem[];
   }
+
   get result() {
+      type  HashTable = {title:string,items:RecordItem[],total?:number}[]
     const { recordList } = this;
-    const hashTable: { [key: string]: HashTableValue } = {};
-    for (let i = 0; i < recordList.length; i++) {
-      const [day, time] = recordList[i].createAt.split("T");
-      hashTable[day] = hashTable[day] || { title: day, items: [] };
-      hashTable[day].items.push(recordList[i]);
-    }
-    return hashTable;
+
+    let hashTable: HashTable = [];
+     const newList = clone(recordList).filter(r=>r.type === this.type).sort((a,b)=>dayjs(b.createAt).valueOf()- dayjs(a.createAt).valueOf()) 
+      if(newList.length === 0){ return [] as HashTable}
+      const [day1,time1] = newList[0].createAt.split("T")
+      hashTable = [{title:day1,items:[newList[0]],total:0}]
+      for(let i = 1 ;i<newList.length;i++){
+           const [day,time] =  newList[i].createAt.split("T")
+           let index = hashTable.length-1
+           if(hashTable[index].title === day){
+              hashTable[index].items.push(newList[i])
+           }else{
+              hashTable[index+1] ={title:day,items:[],total:0}
+              hashTable[index+1].items.push(newList[i])
+           }
+      }
+      console.log(hashTable);
+      hashTable.map(item =>{item.total = item.items.reduce((sum,x)=>sum+x.amount,0)});
+   //  for (let i = 0; i < recordList.length; i++) {
+   //    const [day, time] = recordList[i].createAt.split("T");
+   //    hashTable[day] = hashTable[day] || { title: day, items: [] };
+   //    hashTable[day].items.push(recordList[i]);
+   //  }
+     return hashTable;
   }
   type = "-";
   daytype = "day";

@@ -4,7 +4,7 @@
       <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="(item, index) in datasourse" :key="index" @click="toggle(item)"  :class=" selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
+      <li @click="toggle(item)"     v-for="(item, index) in datasourse" :key="index" :class=" selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
     </ul>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default class Tags extends Vue {
       }else if(index as number>=0){
          this.selectedTags?.splice(index!,1)   
       }
-      this.$emit('update:selected',this.selectedTags)
+      this.$emit('update:selectedTags',this.selectedTags)
   }
 }
 </script>

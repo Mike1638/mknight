@@ -1,14 +1,14 @@
 <template>
   <div>
+    {{record}}
     <Layout class-prefix="layout">
-      {{ record }}
       <NumberPad :value.sync="record.amount" @saveRecord="saveRecord" />
       <Types :type.sync="record.type" />
        <div class="notes">
-      <FormItem @update:value="onUpdateNotes" filedName="备注"  placeholderName="请输入备注"/>
+      <FormItem @update:value="onUpdateNotes" :value='record.notes' filedName="备注"  placeholderName="请输入备注"/>
        </div>
       <Tags
-        @update:selected="onUpdateTags"
+           @update:selected="onUpdateTags"
       />
     </Layout>
   </div>
@@ -43,7 +43,12 @@ export default class Money extends Vue {
     this.record.notes = value;
   }
   saveRecord() {
+    if(!this.record || this.record.tags.length === 0){
+      return window.alert('请至少选择一个标签！')
+    }
     this.$store.commit('createRecord',this.record)
+    this.onUpdateNotes('')
+    // this.record.tags=[]
   }
 }
 </script>
