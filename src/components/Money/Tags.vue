@@ -25,15 +25,6 @@ export default class Tags extends Vue {
    }
   }
   toggle(item:string){
-    // const index = this.selectedTags?.indexOf(item)
-    //   if(index === -1){
-    //     this.selectedTags?.push(item)
-    //   }else if(index as number>=0){
-    //      this.selectedTags?.splice(index!,1)   
-    //   }
-
-    console.log(item);
-    
       this.$emit('update:selectedTags',item)
   }
 }

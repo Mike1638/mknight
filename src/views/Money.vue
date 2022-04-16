@@ -38,8 +38,6 @@ export default class Money extends Vue {
   record: RecordItem = { tags: [], type: "-", amount: 0, notes: "" ,createAt:undefined};
   tag = this.$store.state.tagList;
   onUpdateTags(value: string) {
-    console.log(value);
-    
      const index = this.record.tags.indexOf(value);
     if (index >= 0) {
       this.record.tags.splice(index, 1);
