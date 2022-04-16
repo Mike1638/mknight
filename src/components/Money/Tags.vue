@@ -11,11 +11,11 @@
 
 <script lang='ts'>
 import Vue from "vue";
-import { Component} from "vue-property-decorator";
+import { Component,Prop} from "vue-property-decorator";
 @Component({})
 export default class Tags extends Vue {
   datasourse=this.$store.state.tagList;
-  selectedTags ?:string[]=[];
+  @Prop() selectedTags ?:string[];
   createTag() {
     const tag =  window.prompt('请输入标签名')
    if(tag === null || tag.trim() === ''){
@@ -25,13 +25,16 @@ export default class Tags extends Vue {
    }
   }
   toggle(item:string){
-    const index = this.selectedTags?.indexOf(item)
-      if(index === -1){
-        this.selectedTags?.push(item)
-      }else if(index as number>=0){
-         this.selectedTags?.splice(index!,1)   
-      }
-      this.$emit('update:selectedTags',this.selectedTags)
+    // const index = this.selectedTags?.indexOf(item)
+    //   if(index === -1){
+    //     this.selectedTags?.push(item)
+    //   }else if(index as number>=0){
+    //      this.selectedTags?.splice(index!,1)   
+    //   }
+
+    console.log(item);
+    
+      this.$emit('update:selectedTags',item)
   }
 }
 </script>
