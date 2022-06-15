@@ -40,6 +40,8 @@ export default class Tags extends Vue {
   > .current {
     display: flex;
     flex-wrap: wrap;
+    overflow: auto;
+    height: calc(100vh - 583px);
     > li {
       background-color: #d9d9d9;
       height: 24px;

@@ -54,7 +54,7 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
-import Echarts from "@/components/Money/echarts.vue";
+import Echarts from "@/components/echarts.vue";
 import { mapGetters } from "vuex";
 @Component({
   components: { Button, Echarts },
@@ -74,6 +74,17 @@ export default class Labels extends Vue {
       name: '金额占比',
       type: 'pie',
       radius: ['30%','70%'],
+        labelLine: {
+                normal: {
+                    show: true,//控制线条显示
+                    length: 20,
+                    length2: 20,
+                    lineStyle: {
+                        color: '#333'
+                    }
+                }
+ 
+            },
       data:this.$store.getters.incomeitem,
       avoidLabelOverlap:true,
       label: {
@@ -94,7 +105,6 @@ export default class Labels extends Vue {
                     },
                     c_set:{
                         color: "#333338",
-                        align: "left"
                     }
                    
                 },
@@ -112,16 +122,12 @@ export default class Labels extends Vue {
   };
   
   incomechange() {
-    console.log('xxx');
-    console.log(this.$store.getters.incomeitem);
-    
-    this.option.series.data = this.$store.getters.incomeitem
+    this.option.series[0].data = this.$store.getters.incomeitem
     this.option = {...this.option}
   }
   paychange() {
-     console.log('yyy');
-     console.log(this.$store.getters.payitem)
-     this.option.series.data = this.$store.getters.payitem
+    
+     this.option.series[0].data = this.$store.getters.payitem
      this.option = {...this.option}
   }
   getbudget() {

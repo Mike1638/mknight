@@ -3,11 +3,14 @@
   <div>
     <Layout>
       <Tabs :datasourse="datasourse" :type.sync="type" classPrefix="type" />
-      <Tabs :datasourse="dayList" :type.sync="daytype" classPrefix="day" />
+     <!-- <Tabs :datasourse="dayList" :type.sync="daytype" classPrefix="day" />  -->
+      <div class="echart-wraper" ref="chartwrapper">
+      <Echarts :option="option" :beishu="beishu"  />
+      </div>
       <div>
         <ol v-if='result.length>0'>
           <li v-for="(group, index) in result" :key="index">
-            <h3 class="title">{{ beautify(group.title) }} <span>￥{{group.total}}</span></h3>
+            <h3 class="title">{{ group.title }} <span>￥{{group.total}}</span></h3>
             <ol>
               <li v-for="item in group.items" :key="item.createAt" class="record">
                 <span> {{ showtags(item.tags) }}</span>
@@ -51,14 +54,82 @@ import Vue from "vue";
 import Types from "@/components/Money/Types.vue";
 import Tabs from "@/components/Tabs.vue";
 import dayjs from 'dayjs'
-import { Component } from "vue-property-decorator";
+import { Component ,Prop } from "vue-property-decorator";
 import clone from "@/lib/clone";
+import Echarts from "@/components/echarts.vue"
+import day from 'dayjs'
 type Tag = { id: string; name: string };
 @Component({
-  components: { Types, Tabs },
+  components: { Types, Tabs ,Echarts},
 })
 export default class Statistics extends Vue {
-   beautify(string:string){
+  beishu:number = 4.3
+  get option(){
+    const today = new Date()
+    const array = []
+    const x =this.recordList.map(item =>{return {creatAt:item.createAt,amount:item.amount}})
+    for(let i = 0;i< 29 ;i++){
+      const date = day(today).subtract(i,'day').format('YYYY-MM-DD');
+      array.push({date:date,value:this.result.find(item =>item.title == date)?.total || 0})
+    }
+     array.sort((a, b) => {
+        if (a.date > b.date) {
+          return 1;
+        } else if (a.date === b.date) {
+          return 0;
+        } else {
+          return -1;
+        }
+        })
+    const keys = array.map(item => item.date)
+    const values = array.map(item => item.value)
+    console.log(array)
+    return {
+  grid:{
+      top:0,
+      left:0,
+      right:0,
+      bottom:18,
+    },
+  xAxis: {
+    type: 'category',
+    data: keys,
+    axisTick:{alignWithLabel:true},
+    axisLabel:{
+      formatter:function(value:string,index:number){
+        return value.substr(5)
+      }
+    }
+  },
+  yAxis: {
+    type: 'value',
+    show:false
+  },  
+  tooltip: {
+          show: true, triggerOn: 'click',
+          position: 'top',
+          formatter: '{c}'
+        },
+  series: [
+    { 
+      symbolSize:14,
+      itemStyle : {
+         normal: {label : {show: true}}
+         },
+      data: values,
+      type: 'line',
+   
+    }
+  ]
+    }
+  }
+ 
+ mounted(){
+  const echartdiv=  (this.$refs.chartwrapper as HTMLDivElement)
+     echartdiv.scrollLeft = echartdiv.scrollWidth
+ }
+
+  beautify(string:string){
       const d= dayjs()
       const day = dayjs(string)
       if(day.isSame(d,'day')){
@@ -132,5 +203,11 @@ export default class Statistics extends Vue {
 }
 ::v-deep li.day-tabs-item {
   height: 40px;
+}
+.echart-wraper{
+  overflow: scroll;
+  &::-webkit-scrollbar{
+    display: none;
+  }
 }
 </style>

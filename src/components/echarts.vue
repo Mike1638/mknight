@@ -10,19 +10,18 @@ import * as echarts from "echarts"
 
 export default class Echarts extends Vue {
     @Prop({required:true}) option!:echarts.EChartsOption
+    @Prop(Number) beishu? :number
     chart?:echarts.ECharts
     mounted(){
       const element = (this.$refs.container as HTMLDivElement)
       const width = document.documentElement.clientWidth - 2
-      element.style.width = `${width}px`
+      element.style.width = `${width * (this.beishu || 1 ) }px`
       element.style.height = `${width - 50}px`
       this.chart = echarts.init(element)
       this.chart.setOption(this.option)
     }
    @Watch('option',{deep:true})
    onOptionChange(newvalue:echarts.EChartsOption){
-    console.log('1111')
-    console.log(newvalue)
     this.chart!.setOption(newvalue)
    }
       
