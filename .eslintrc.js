@@ -28,5 +28,6 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+  no-undef: off
 }

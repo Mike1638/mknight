@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 <template>
   <div>
     <Layout>
@@ -8,7 +9,7 @@
           <li v-for="(group, index) in result" :key="index">
             <h3 class="title">{{ beautify(group.title) }} <span>￥{{group.total}}</span></h3>
             <ol>
-              <li v-for="item in group.items" :key="item.id" class="record">
+              <li v-for="item in group.items" :key="item.createAt" class="record">
                 <span> {{ showtags(item.tags) }}</span>
                 <span class="note">{{ item.notes }}</span>
                 <span>￥{{ item.amount }}</span>
@@ -52,13 +53,6 @@ import Tabs from "@/components/Tabs.vue";
 import dayjs from 'dayjs'
 import { Component } from "vue-property-decorator";
 import clone from "@/lib/clone";
-type RecordItem = {
-  tags: string[];
-  notes: string;
-  type: string;
-  amount: number;
-  createAt: string;
-};
 type Tag = { id: string; name: string };
 @Component({
   components: { Types, Tabs },
@@ -66,7 +60,6 @@ type Tag = { id: string; name: string };
 export default class Statistics extends Vue {
    beautify(string:string){
       const d= dayjs()
-
       const day = dayjs(string)
       if(day.isSame(d,'day')){
          return '今天'      
@@ -79,7 +72,6 @@ export default class Statistics extends Vue {
       }else{
          return day.format('YYYY年MM月D日')
       }
-
  }
   showtags(tag: Tag[]) {
     return tag.length === 0?'无':  tag.map(item=>item.name).join(',');
@@ -87,11 +79,9 @@ export default class Statistics extends Vue {
   get recordList() {
     return this.$store.state.recordList as RecordItem[];
   }
-
   get result() {
       type  HashTable = {title:string,items:RecordItem[],total?:number}[]
     const { recordList } = this;
-
     let hashTable: HashTable = [];
      const newList = clone(recordList).filter(r=>r.type === this.type).sort((a,b)=>dayjs(b.createAt).valueOf()- dayjs(a.createAt).valueOf()) 
       if(newList.length === 0){ return [] as HashTable}

@@ -24,7 +24,7 @@ type Tag = {id:string,name:string}
 })
 
 export default class  extends Vue {
-tag?:Tag = undefined
+tag!:Tag 
 remove(){
   if(this.tag){
   this.$store.commit('removeTag',this.tag); 
