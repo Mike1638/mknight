@@ -3,14 +3,13 @@
   <div>
     <Layout>
       <Tabs :datasourse="datasourse" :type.sync="type" classPrefix="type" />
-     <!-- <Tabs :datasourse="dayList" :type.sync="daytype" classPrefix="day" />  -->
       <div class="echart-wraper" ref="chartwrapper">
       <Echarts :option="option" :beishu="beishu"  />
       </div>
-      <div>
+      <div class="listwrapper">
         <ol v-if='result.length>0'>
           <li v-for="(group, index) in result" :key="index">
-            <h3 class="title">{{ group.title }} <span>￥{{group.total}}</span></h3>
+            <h3 class="title">{{ beautify(group.title) }} <span>￥{{group.total}}</span></h3>
             <ol>
               <li v-for="item in group.items" :key="item.createAt" class="record">
                 <span> {{ showtags(item.tags) }}</span>
@@ -47,6 +46,10 @@
   margin-right: auto;
   margin-left: 8px;
 }
+.listwrapper{
+  overflow: scroll;
+  height: calc(50vh - 118px);
+}
 </style>
 
 <script lang='ts'>
@@ -54,7 +57,7 @@ import Vue from "vue";
 import Types from "@/components/Money/Types.vue";
 import Tabs from "@/components/Tabs.vue";
 import dayjs from 'dayjs'
-import { Component ,Prop } from "vue-property-decorator";
+import { Component  } from "vue-property-decorator";
 import clone from "@/lib/clone";
 import Echarts from "@/components/echarts.vue"
 import day from 'dayjs'
@@ -83,13 +86,12 @@ export default class Statistics extends Vue {
         })
     const keys = array.map(item => item.date)
     const values = array.map(item => item.value)
-    console.log(array)
     return {
   grid:{
-      top:0,
+      top:14,
       left:0,
       right:0,
-      bottom:18,
+      bottom:20,
     },
   xAxis: {
     type: 'category',
@@ -108,7 +110,7 @@ export default class Statistics extends Vue {
   tooltip: {
           show: true, triggerOn: 'click',
           position: 'top',
-          formatter: '{c}'
+          formatter: '{c}元'
         },
   series: [
     { 
@@ -151,6 +153,7 @@ export default class Statistics extends Vue {
     return this.$store.state.recordList as RecordItem[];
   }
   get result() {
+    console.log(this.type)
       type  HashTable = {title:string,items:RecordItem[],total?:number}[]
     const { recordList } = this;
     let hashTable: HashTable = [];
@@ -178,16 +181,11 @@ export default class Statistics extends Vue {
      return hashTable;
   }
   type = "-";
-  daytype = "day";
   datasourse = [
     { name: "支出", value: "-" },
     { name: "收入", value: "+" },
   ];
-  dayList = [
-    { name: "日", value: "day" },
-    { name: "月", value: "month" },
-    { name: "年", value: "year" },
-  ];
+  
 }
 </script>
 
@@ -195,7 +193,7 @@ export default class Statistics extends Vue {
 ::v-deep .type-tabs-item {
   background: white;
   &.selected {
-    background: #c4c4c4;
+    background: #80afdd;
     &::after {
       display: none;
     }

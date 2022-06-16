@@ -12,7 +12,7 @@ import Vue from "vue";
 import { Component,Prop} from "vue-property-decorator";
 @Component({})
 export default class Types extends Vue {
-  @Prop(String) type!: '-';
+  @Prop({required:true}) type!: '-';
   @Prop(String) classPrefix?:string
   selectType(type:string){
       this.$emit('update:type',type)
@@ -23,7 +23,7 @@ export default class Types extends Vue {
 </script>
 <style lang='scss' scoped>
 .types {
-  background-color: #c4c4c4;
+  background-color: #a2bbd8;
   display: flex;
   text-align: center;
   font-size: 24px;
@@ -41,7 +41,8 @@ export default class Types extends Vue {
       bottom: 0px;
       width: 100%;
       height: 4px;
-      background: #333;
+      background: #4e98e1;
+      border-radius: 2px;
     }
   }
 }

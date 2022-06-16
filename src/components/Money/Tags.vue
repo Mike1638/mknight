@@ -2,9 +2,10 @@
   <div class="tags">
     <div class="new">
       <button @click="createTag">新增标签</button>
+      <router-link to="/money/labels" class="edit">修改标签</router-link>
     </div>
     <ul class="current">
-      <li @click="toggle(item)"     v-for="(item, index) in datasourse" :key="index" :class=" selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
+      <li @click="toggle(item)"     v-for="(item, index) in datasourse" :key="index" :class="selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
     </ul>
   </div>
 </template>
@@ -43,20 +44,30 @@ export default class Tags extends Vue {
     overflow: auto;
     height: calc(100vh - 583px);
     > li {
-      background-color: #d9d9d9;
+      background-color: #53c7f0;
       height: 24px;
       border-radius: 12px;
       padding: 0px 15px;
       margin-right: 12px;
       margin-top: 4px;
       &.selected{
-        background-color: rgb(116, 116, 116);
+        background-color: #1d97c1;
       }
     }
   }
   > .new {
     padding-top: 16px;
+    display: flex;
+    justify-content: space-around;
     button {
+      border: none;
+      color: #999;
+      font-size: 14px;
+      border-bottom: 1px solid;
+      background: transparent;
+      padding: 0px 4px;
+    }
+    .edit{
       border: none;
       color: #999;
       font-size: 14px;

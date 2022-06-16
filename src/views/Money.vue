@@ -23,7 +23,6 @@
            :selectedTags='record.tags'
       />
     </Layout>
-      {{record}}
   </div>
 </template>
 

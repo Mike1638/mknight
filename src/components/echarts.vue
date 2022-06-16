@@ -18,7 +18,7 @@ export default class Echarts extends Vue {
       element.style.width = `${width * (this.beishu || 1 ) }px`
       element.style.height = `${width - 50}px`
       this.chart = echarts.init(element)
-      this.chart.setOption(this.option)
+      this.chart.setOption(this.option) 
     }
    @Watch('option',{deep:true})
    onOptionChange(newvalue:echarts.EChartsOption){

@@ -58,7 +58,7 @@ this.$store.commit('findTag',this.$route.params.id)
  
 }
 goback(){
-  this.$router.replace('/labels')
+  this.$router.replace('/money/labels')
 }
 }
 </script>

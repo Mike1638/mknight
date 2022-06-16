@@ -80,17 +80,17 @@ export default class NumberPad extends Vue {
     > button {
       float: left;
       width: 25%;
-      height: 64px;
+      height: 58px;
       border: none;
       background: transparent;
       &.ok {
-        height: 64px * 2;
+        height: 116px;
         float: right;
       }
       &.zero {
         width: 50%;
       }
-      $bg: #f2f2f2;
+      $bg: #94b7da;
       &:nth-child(1) {
         background: $bg;
       }

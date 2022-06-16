@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <router-link to="/money" class="item" active-class="selected"> <Icon name="money"  class="icon"/> 记账</router-link>
-    <router-link to="/labels" class="item" active-class="selected"> <Icon name="label" /> 标签</router-link>
+    <router-link to="/bill" class="item" active-class="selected"> <Icon name="label" /> 账单</router-link>
     <router-link to="/statistics" class="item" active-class="selected"> <Icon name="barchart" /> 统计</router-link>
   </div>
 </template>

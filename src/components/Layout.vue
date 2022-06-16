@@ -23,7 +23,10 @@ export default class Layout extends Vue {
      height: 100vh;
  }
  .content{
+     display: flex;
+     flex-direction: column-reverse;
      overflow: auto;
+     justify-content: space-between;
      flex-grow:1;
  }
 </style>
