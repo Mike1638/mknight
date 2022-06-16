@@ -1,15 +1,15 @@
 <template>
-  <Layout>
-     <div class="navBar">
+<Layout class="edit">
+      <Button @click.native="remove">删除标签</Button>
+      <div class="formitem">
+    <FormItem filedName='标签名' placeholderName="请修改" :value="tag.name" @update:value="updateTag" />
+     </div>
+       <div class="navBar">
          <Icon name = 'left' class="left" @click="goback" />
          <span class="title">编辑标签</span>
          <div class="right"></div>
      </div>
-     <div class="formitem">
-    <FormItem filedName='标签名' placeholderName="请修改" :value="tag.name" @update:value="updateTag" />
-     </div>
-    <Button @click.native="remove">删除标签</Button>
-  </Layout>
+</Layout>
 </template>
 
 <script lang='ts'>
@@ -82,5 +82,10 @@ goback(){
 .formitem{
   margin-top: 10px;
   background-color: white;
+}
+</style>
+<style>
+.edit > .content {
+  justify-content: flex-end;
 }
 </style>

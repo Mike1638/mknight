@@ -6,16 +6,16 @@
        <div class="notes">
       <div class="block">
         <span class="demonstration">日期</span>
-      <el-date-picker
+        <el-date-picker
         v-model="record.createAt"
-        align="center"
+        align="right"
         type="date"
         size="small"
         placeholder="选择日期"
         value-format ="yyyy-MM-dd"
         :picker-options="pickerOptions">
-      </el-date-picker>
-  </div>
+        </el-date-picker>
+      </div>
       <FormItem @update:value="onUpdateNotes" :value='record.notes' filedName="备注"  placeholderName="请输入备注"/>
        </div>
       <Tags
@@ -81,12 +81,12 @@ export default class Money extends Vue {
   record: RecordItem = { tags: [], type: "-", amount: 0, notes: "" ,createAt:''};
   tag = this.$store.state.tagList;
   onUpdateTags(value: Tag) { // value :string   选择标签
-    const index = this.record.tags.indexOf(value);
-    if (index >= 0) {
-      this.record.tags.splice(index, 1);
-    } else {
-      this.record.tags.push(value);
-    }
+   const a = this.record.tags?.[0]?.id
+   if(a === undefined){
+    this.record.tags.push(value)
+   }else if(a === value.id){
+      this.record.tags = []
+   }
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
@@ -110,9 +110,34 @@ export default class Money extends Vue {
 .notes{
   padding-top: 5px;
 }
+
+.el-picker-panel.el-date-picker.el-popper.has-sidebar{
+  width: 100vw;
+  .el-picker-panel__sidebar{
+    width:80px;
+  }
+  .el-picker-panel__body{
+    .el-date-picker__header {
+      margin-left: -30px;
+    }
+    .el-picker-panel__content{
+      margin-left: -30px;
+    }
+   }
+} 
+.el-date-picker {
+  border: 1px solid yellow;
+
+}
+.el-popper {
+  border: 1px solid green;
+}
+.has-sidebar{
+  border: 1px solid blue;
+
+}
 // .el-date-picker.has-sidebar{
-//   border: 1px solid red;
-//   width: 200px;
+//   width: 100vw;
 //   > .el-picker-panel__body{
 //      margin-left: 60px;
 //   }

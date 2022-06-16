@@ -5,7 +5,7 @@
       <router-link to="/money/labels" class="edit">修改标签</router-link>
     </div>
     <ul class="current">
-      <li @click="toggle(item)"     v-for="(item, index) in datasourse" :key="index" :class="selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
+      <li @click="toggle(item)"  v-for="(item, index) in datasourse" :key="index" :class="selectedTags.indexOf(item) >=0 && 'selected'  ">{{ item.name }}</li>
     </ul>
   </div>
 </template>
@@ -16,7 +16,7 @@ import { Component,Prop} from "vue-property-decorator";
 @Component({})
 export default class Tags extends Vue {
   datasourse=this.$store.state.tagList;
-  @Prop() selectedTags ?:string[];
+  @Prop() selectedTags?:string[];
   createTag() {
     const tag =  window.prompt('请输入标签名')
    if(tag === null || tag.trim() === ''){
@@ -37,7 +37,7 @@ export default class Tags extends Vue {
   padding: 16px;
   display: flex;
   flex-direction: column-reverse;
-  background: white;
+  background: #ecf4f3;
   > .current {
     display: flex;
     flex-wrap: wrap;
@@ -45,11 +45,12 @@ export default class Tags extends Vue {
     height: calc(100vh - 583px);
     > li {
       background-color: #53c7f0;
-      height: 24px;
+      height: 30px;
       border-radius: 12px;
       padding: 0px 15px;
       margin-right: 12px;
       margin-top: 4px;
+      line-height: 30px;
       &.selected{
         background-color: #1d97c1;
       }

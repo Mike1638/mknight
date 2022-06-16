@@ -28,5 +28,11 @@ export default class Layout extends Vue {
      overflow: auto;
      justify-content: space-between;
      flex-grow:1;
+     background:#ecf4f3;
+ }
+ .edit {
+  .content{
+    justify-content: flex-end;
+  }
  }
 </style>

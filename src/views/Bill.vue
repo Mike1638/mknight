@@ -27,6 +27,7 @@
           <router-link to="/statistics" class="fenxi"
             >查看月度统计分析</router-link
           >
+          <div class="月光"></div>
         </div>
       </div>
     </Layout>
@@ -38,13 +39,9 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 import Echarts from "@/components/echarts.vue";
-import { mapGetters } from "vuex";
 import Tabs from "@/components/Tabs.vue"
 @Component({
   components: { Button, Echarts ,Tabs },
-   computed:{
-    ...mapGetters(['incomes','pays','remaining'])
-  },
 })
 export default class Labels extends Vue {
  
@@ -53,9 +50,16 @@ export default class Labels extends Vue {
     { name: "收入", value: "+" },
   ];
    type = "-";
-
   //echarts数据
-
+  get incomes(){
+    return this.$store.getters.incomes
+  }
+  get pays(){
+    return this.$store.getters.pays
+  }
+  get remaining(){
+    return this.$store.getters.remaining
+  }
   get option(){
       return {
      tooltip: {
@@ -149,10 +153,10 @@ export default class Labels extends Vue {
   created() {
     this.$store.commit("fetchBudget");
     if (this.$store.getters.remaining) {
-      // 判断预算剩余是否进行提醒
+      
     }
   }
-
+  
  
 }
 </script>
