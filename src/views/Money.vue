@@ -112,6 +112,10 @@ export default class Money extends Vue {
     if(!this.record || this.record.tags.length === 0){
       return window.alert('请选择一个标签！')
     }
+    if(this.record.createAt ===''){
+      return window.alert('请选择日期！')
+    }
+    console.log(this.record)
     this.$store.commit('createRecord',this.record)
     this.onUpdateNotes('')
     this.record.tags=[]

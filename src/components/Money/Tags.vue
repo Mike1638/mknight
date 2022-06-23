@@ -22,8 +22,13 @@ export default class Tags extends Vue {
    if(tag === null || tag.trim() === ''){
      window.alert('输入为空')
    }else{
-     this.$store.commit('createTag',tag)
-   }
+      this.$store.commit('createTag',tag)
+      if(this.$store.state.createTagError == 'success'){
+        window.alert('创建成功')
+      }else{
+        window.alert('标签重复')
+      }
+    }
   }
   toggle(item:string){
       this.$emit('update:selectedTags',item)

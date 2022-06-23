@@ -9,6 +9,7 @@ const store = new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
+    createTagError :'' as String,
     currentTag: {} as Tag,
     budget: 0 as number,
     income: 0 as number,
@@ -16,6 +17,7 @@ const store = new Vuex.Store({
     remaining: 0 as number,
     incomeitem: [] as [],
     payitem: [] as [],
+    // ratio:0 as number
   },
   getters: {
     incomes(state) {
@@ -42,6 +44,12 @@ const store = new Vuex.Store({
       let a = state.budget - getters.pays;
       return a;
     },
+    // ratios(state,getters){
+    //   // if(state.budget)
+    //   // let a =  parseFloat((getters.pays/state.budget).toString()) 
+    //   console.log(state)
+    //   return 
+    // },
     incomeitem(state) {
       type Item = {value: number, name: string};
     const arr : Item[]= state.recordList.filter(item=>item.type === '+').map(item=>{return {value:item.amount,name:item.tags[0].name}})
@@ -132,29 +140,29 @@ const store = new Vuex.Store({
     },
 
     fetch(state) {
-      // if(!state.tagList ||state.tagList.length == 0 ){
-      //     store.commit('createTag','打车')
-      //     store.commit('createTag','吃烧烤')
-      //     store.commit('createTag','买菜')
-      //     store.commit('createTag','买衣服')
-      //     store.commit('createTag','充话费')
-      // }
       state.tagList = JSON.parse(
         window.localStorage.getItem("tagList") || "[]"
       );
+      if(!state.tagList || state.tagList.length == 0 ){
+          store.commit('createTag','打车')
+          store.commit('createTag','吃烧烤')
+          store.commit('createTag','买菜')
+          store.commit('createTag','买衣服')
+          store.commit('createTag','充话费')
+      }
     },
 
     createTag(state, name: string) {
+      state.createTagError = ''
       const names = state.tagList.map((tag) => tag.name);
       const id = createId().toString();
       if (names.indexOf(name) >= 0) {
-        window.alert("标签输入重复");
-        return "duplicated";
+        state.createTagError = 'duplicated'
+        return
       }
       state.tagList.push({ id: id, name: name });
       store.commit("saveTags");
-      window.alert("新增成功");
-      return "success";
+      state.createTagError = 'success'
     },
 
     removeTag(state, tag: Tag) {

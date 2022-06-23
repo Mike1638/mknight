@@ -2,7 +2,15 @@
   <div>
     <Layout>
       <Tabs :datasourse="datasourse" :type.sync="type" classPrefix="type" />
-      <Echarts :option="option" />
+      <Echarts :option="option" v-if="result.length !== 0" />
+      <div class="nodata" v-else>
+          <div>暂</div>
+          <div>无</div>
+          <div>数</div>
+          <div>据</div>
+          <div>展</div>
+          <div>示</div>
+      </div>
       <div class="money">
         <div class="moneywrapper">
           <span>当月账单</span>
@@ -20,14 +28,21 @@
               <span>￥{{remaining}}</span>
             </div>
             <div class="yusuan z">
-              <div @click="getbudget">月度预算</div>
-              <span @click="getbudget">￥{{ $store.state.budget }}</span>
+              <div>月度预算</div>
+              <span>￥{{ $store.state.budget }}</span>
             </div>
+          </div>
+          <div class="月光">
+             <div v-if="$store.state.budget == '0'"  @click="getbudget">设置月度预算</div>
+
+
+             <div v-else class="mkfill"  @click="getbudget" :style="{width:`{{mkratio}}+%`}"   >进度条{{mkratio}}</div>
+
+
           </div>
           <router-link to="/statistics" class="fenxi"
             >查看月度统计分析</router-link
           >
-          <div class="月光"></div>
         </div>
       </div>
     </Layout>
@@ -60,11 +75,23 @@ export default class Labels extends Vue {
   get remaining(){
     return this.$store.getters.remaining
   }
+  get mkratio(){
+       let a = 0
+       if(this.$store.state.budget == 0){return}
+       if(this.$store.getters.pays>=this.$store.state.budget){
+         a = 100
+       }else{
+         a = (this.$store.getters.pays/this.$store.state.budget)*100
+       }
+       console.log(a);
+    return a
+  }
   get option(){
       return {
      tooltip: {
     trigger: 'item'
   },
+
   series: [
     {
       name: '金额占比',
@@ -171,6 +198,13 @@ export default class Labels extends Vue {
     }
   }
 }
+
+.nodata{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 28px;
+}
 .money {
   background: linear-gradient(
     90deg,
@@ -184,6 +218,7 @@ export default class Labels extends Vue {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     > span {
       padding: 10px;
       font-size: x-large;
@@ -213,6 +248,21 @@ export default class Labels extends Vue {
     .fenxi {
       padding: 15px;
       color: #3f7c00;
+    }
+    .月光{
+      margin-top:20px;
+      margin-bottom:5px;
+      height: 30px;
+      line-height:30px;
+      width: 80%;
+      border: 1px solid black;
+      border-radius: 10px;
+      .mkfill{
+        height: 28px;
+        border-radius: 10px;
+        background: white;
+        width: 0;
+      }
     }
   }
 }

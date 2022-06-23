@@ -11,7 +11,7 @@
           <li v-for="(group, index) in result" :key="index">
             <h3 class="title">{{ beautify(group.title) }} <span>￥{{group.total}}</span></h3>
             <ol>
-              <li v-for="item in group.items" :key="item.createAt" class="record">
+              <li v-for="(item,index) in group.items" :key="index" class="record">
                 <span> {{ showtags(item.tags) }}</span>
                 <span class="note">{{ item.notes }}</span>
                 <span>￥{{ item.amount }}</span>
@@ -19,8 +19,13 @@
             </ol>
           </li>
         </ol>
-        <div v-else>
-          暂无数据展示
+        <div v-else class="nodata">
+          <div>暂</div>
+          <div>无</div>
+          <div>数</div>
+          <div>据</div>
+          <div>展</div>
+          <div>示</div>
         </div>
       </div>
     </Layout>
@@ -49,6 +54,13 @@
 .listwrapper{
   overflow: scroll;
   height: calc(50vh - 118px);
+  .nodata{
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%,-50%);
+    font-size: 40px;
+  }
 }
 </style>
 
