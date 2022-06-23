@@ -100,7 +100,7 @@ export default class Statistics extends Vue {
     const values = array.map(item => item.value)
     return {
   grid:{
-      top:14,
+      top:40,
       left:0,
       right:0,
       bottom:20,

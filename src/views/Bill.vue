@@ -34,11 +34,8 @@
           </div>
           <div class="月光">
              <div v-if="$store.state.budget == '0'"  @click="getbudget">设置月度预算</div>
-
-
-             <div v-else class="mkfill"  @click="getbudget" :style="{width:`{{mkratio}}+%`}"   >进度条{{mkratio}}</div>
-
-
+             <div v-if="$store.state.budget != '0' && !isfillshow" class="mkfill"  @click="getbudget" :style="{ width: `${mkratio}` }">{{mkratio}}</div>
+             <div v-if="isfillshow" class="mkfill"  @click="getbudget">月光啦</div>
           </div>
           <router-link to="/statistics" class="fenxi"
             >查看月度统计分析</router-link
@@ -77,21 +74,35 @@ export default class Labels extends Vue {
   }
   get mkratio(){
        let a = 0
-       if(this.$store.state.budget == 0){return}
+       if(this.$store.state.budget == 0){return 0}
        if(this.$store.getters.pays>=this.$store.state.budget){
          a = 100
        }else{
-         a = (this.$store.getters.pays/this.$store.state.budget)*100
+         a = +((this.$store.getters.pays/this.$store.state.budget)*100).toFixed(1)
        }
-       console.log(a);
-    return a
+      //  let b = `width:${a}%`
+      console.log(typeof a);
+      
+    return a+"%"
+  }
+  get isfillshow(){
+    let a 
+    if(this.mkratio != 0){
+       a = Number(this.mkratio.substring(0,this.mkratio.length-1))
+    }else{
+      return false
+    }
+    if(a>=100){
+      return true
+    }else{
+      return false  
+    }
   }
   get option(){
       return {
      tooltip: {
     trigger: 'item'
   },
-
   series: [
     {
       name: '金额占比',
@@ -260,8 +271,7 @@ export default class Labels extends Vue {
       .mkfill{
         height: 28px;
         border-radius: 10px;
-        background: white;
-        width: 0;
+        background: linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
       }
     }
   }
