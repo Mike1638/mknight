@@ -31,7 +31,7 @@ remove(){
   }else{
     window.alert('删除失败')
   }
-  this.$router.replace('/labels')
+  this.$router.replace('/money/labels')
 }
 
 

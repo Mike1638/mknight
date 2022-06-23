@@ -223,7 +223,8 @@ export default class Labels extends Vue {
     rgba(152, 185, 218, 1) 42%,
     rgba(76, 151, 226, 1) 100%
   );
-  border-radius: 20px;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
   > .moneywrapper {
     display: flex;
     flex-direction: column;
@@ -270,7 +271,7 @@ export default class Labels extends Vue {
       border-radius: 10px;
       .mkfill{
         height: 28px;
-        border-radius: 10px;
+        border-radius: 9px;
         background: linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
       }
     }
