@@ -74,7 +74,11 @@ export default class Money extends Vue {
               picker.$emit('pick', date);
             }
           }
-          ]
+          ],
+          disabledDate(time:any) {
+            return time.getTime() > Date.now() - 8.64e6; //只能选择今天及今天之前的日期
+            // return time.getTime() > Date.now() - 8.64e7; //只能选择今天之前的日期，连今天的日期也不能选
+          }
         }
    forbid(){
     if(document.activeElement instanceof HTMLElement){
@@ -109,7 +113,7 @@ export default class Money extends Vue {
   }
   saveRecord() {
     if(!this.record || this.record.tags.length === 0){
-      return window.alert('请至少选择一个标签！')
+      return window.alert('请选择一个标签！')
     }
     this.$store.commit('createRecord',this.record)
     this.onUpdateNotes('')
