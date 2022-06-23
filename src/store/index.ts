@@ -132,6 +132,13 @@ const store = new Vuex.Store({
     },
 
     fetch(state) {
+      // if(!state.tagList ||state.tagList.length == 0 ){
+      //     store.commit('createTag','打车')
+      //     store.commit('createTag','吃烧烤')
+      //     store.commit('createTag','买菜')
+      //     store.commit('createTag','买衣服')
+      //     store.commit('createTag','充话费')
+      // }
       state.tagList = JSON.parse(
         window.localStorage.getItem("tagList") || "[]"
       );

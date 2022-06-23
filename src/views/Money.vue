@@ -76,8 +76,7 @@ export default class Money extends Vue {
           }
           ],
           disabledDate(time:any) {
-            return time.getTime() > Date.now() - 8.64e6; //只能选择今天及今天之前的日期
-            // return time.getTime() > Date.now() - 8.64e7; //只能选择今天之前的日期，连今天的日期也不能选
+            return time.getTime() > Date.now() - 8.64e6; 
           }
         }
    forbid(){
@@ -95,8 +94,6 @@ export default class Money extends Vue {
       })
     })
    }
-  // datevalue :any =  ''
-  
   recordList: RecordList = this.$store.state.recordList;
   record: RecordItem = { tags: [], type: "-", amount: 0, notes: "" ,createAt:''};
   tag = this.$store.state.tagList;
