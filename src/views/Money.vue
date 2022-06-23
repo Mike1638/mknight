@@ -13,6 +13,7 @@
         size="small"
         placeholder="选择日期"
         value-format ="yyyy-MM-dd"
+        @focus = 'forbid'
         :picker-options="pickerOptions">
         </el-date-picker>
       </div>
@@ -75,6 +76,21 @@ export default class Money extends Vue {
           }
           ]
         }
+   forbid(){
+    if(document.activeElement instanceof HTMLElement){
+      document.activeElement.blur()
+    }
+    this.$nextTick(() => {
+      let inputTime = document.querySelectorAll('.el-input__inner')
+      inputTime.forEach(item => {
+        item.addEventListener('focus', () => {
+          if(document.activeElement instanceof HTMLElement){
+              document.activeElement.blur()
+           }
+        })
+      })
+    })
+   }
   // datevalue :any =  ''
   
   recordList: RecordList = this.$store.state.recordList;
